@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    function thousands(number) {
+      const [interger, decimal] = String(number).split(".");
+      const arr = [];
+      const len = interger.length;
+      // 从前往后数
+      for (let i = 0; i < len; i++) {
+        // 从后往前塞
+        i % 3 === 0 && arr.unshift(interger.substring(len - i - 3, len - i));
+      }
+      console.log(arr);
+      const int = arr[0] === '-' ? arr.slice(1).join(",") : arr.join(",");
+      return `-${int}.${decimal}`
+    }
+    console.log(thousands(-123456.1234));
+
+    function thousands2(number) {
+      const [interger, decimal] = String(number).split(".");
+      const arr = interger.split("").reverse();
+      const int = arr.reduce(function (sum, item, index) {
+        const prefix = (index % 3 === 0 && item !='-') ? "," : "";
+        return item + prefix + sum;
+      });
+      return int + "." + decimal;
+    }
+    console.log(thousands2(-123456.1234));
+
+    // 2. 正则表达式实现
+    function thousands3(number) {
+      const [interger, decimal] = String(number).split(".");
+      // ?= 是零宽正预测先行断言，标记了字符出现位置的右边必须是什么表达式
+      // 正则表达式分组
+      const reg = /\d{1,3}(?=(\d{3})+$)/g;
+      // $&是replace的用法，表示插入匹配的子字符串 逗号。
+      const int = interger.replace(reg, "$&,");
+      return int + "." + decimal;
+    }
+    console.log(thousands3(-123456.8901));
+  </script>
+</html>

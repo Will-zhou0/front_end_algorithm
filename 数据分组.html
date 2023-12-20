@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    function group(objArr, key) {
+      const result = {};
+      for (let item of objArr) {
+        const groupKey = item[key]
+        if (result[groupKey]) {
+          result[groupKey].push(item);
+        } else {
+          result[groupKey] = [item];
+        }
+      }
+      return result;
+    }
+
+    //test
+    const objArr = [
+      {
+        name: "小明",
+        age: 18,
+        address: "上海",
+      },
+      {
+        name: "小红",
+        age: 18,
+        address: "北京",
+      },
+      {
+        name: "小王",
+        age: 20,
+        address: "上海",
+      },
+      {
+        name: "小芳",
+        age: 19,
+        address: "北京",
+      },
+      {
+        name: "小绿",
+        age: 18,
+        address: "上海",
+      },
+      {
+        name: "小张",
+        age: 19,
+        address: "上海",
+      },
+    ];
+
+    console.log(group(objArr,'age'))
+    // 使用reduce实现分组函数
+    const newObj = objArr.reduce((acc, cur) => {
+      if (!acc[cur.address]) {
+        acc[cur.address] = [];
+      }
+      acc[cur.address].push(cur);
+      return acc;
+    }, {});
+    console.log(newObj)
+
+  </script>
+</html>

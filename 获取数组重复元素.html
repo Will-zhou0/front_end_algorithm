@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let arr = [4, 6, 2, 8, 3, 13, 31, 27, 11, 4, 7,4,11];
+    function duplicate1(arr){
+        let temp= []
+        arr.sort((a,b)=>a-b)
+        arr.forEach((item,index)=>{
+            if(item === arr[index+1] && temp.indexOf(item) === -1){
+                temp.push(item)
+            }
+        })
+        return temp
+    }
+    // console.log(duplicate1(arr))
+    const newArr = arr.filter((item,index) => arr.indexOf(item) !== arr.lastIndexOf(item) && arr.indexOf(item) === index)
+    console.log(newArr);
+</script>
+</html>

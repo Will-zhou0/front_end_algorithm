@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var arr = [2, 1, 2, 2, 1, 4, 5];
+    var newStr = {};
+    // 数组去重 和计算出现的次数
+    arr.forEach(function (item) {
+      if (newStr[item]) {
+        newStr[item]++;
+      } else {
+        newStr[item] = 1;
+      }
+    });
+    var max = 0;
+    var strkey = null;
+    for (var key in newStr) {
+      if (newStr[key] > max) {
+        max = newStr[key];
+        strkey = key;
+      }
+    }
+    console.log("最多的字符是" + strkey);
+    console.log("出现的次数是" + max);
+
+    var repeatNum = function (str) {
+      let map = new Map()
+      let max = 0;
+      let maxIndex
+      for(const ch of str){
+        map.set(ch, (map.get(ch)||0)+1);
+        if(map.get(ch) > max){
+            max = map.get(ch);
+            maxIndex = ch
+        }
+      }
+
+      // for(let [key,value] of map){
+      //   if(value > max){
+      //       max = value;
+      //       maxIndex = key
+      //   }
+      // }
+      return [maxIndex,max];
+    }
+    console.log(repeatNum('aaaaasdsdaaaaasss'));
+
+    function countIdentity(str){
+        let map = new Map()
+        for(const ch of str){
+            map.set(ch, (map.get(ch)||0) + 1)
+        }
+        const count = map.get(str[0])
+        for(const [key,value] of map){
+          if(value!= count) return false
+        }
+        return true
+    }
+    console.log(countIdentity('abcdd'));
+  </script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+
+    <style>
+      .outer {
+        height: 200px;
+        background-color: red;
+        padding: 10px;
+      }
+
+      .inner {
+        height: 100px;
+        background-color: blue;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="inner"></div>
+    </div>
+  </body>
+
+  <script>
+    // script 主代码块 第一个宏任务1
+    let inner = document.querySelector(".inner");
+    let outer = document.querySelector(".outer");
+
+    // 监听outer元素的attribute变化
+    // 微任务2
+    new MutationObserver(function () {
+      console.log("mutate");
+    }).observe(outer, {
+      attributes: true,
+    });
+
+    // click监听事件
+    function onClick() {
+      console.log("click");  // 同步任务
+
+      setTimeout(function () {
+        console.log("timeout"); // 添加到宏4、5
+      }, 0);
+
+      Promise.resolve().then(function () {
+        console.log("promise"); // 微任务1
+      });
+
+      outer.setAttribute("data-random", Math.random()); // 触发微任务2
+    }
+
+    //  宏任务2
+    inner.addEventListener("click", onClick);
+    //  从inner冒泡到outer 宏任务3
+    outer.addEventListener('click', onClick)
+  </script>
+</html>

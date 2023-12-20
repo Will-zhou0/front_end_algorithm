@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var value = 1;
+    function foo() {
+      console.log(value); // 变量声明，作用域链生成
+    }
+    function bar() {
+      var value = 2;
+      foo();
+      console.log(value);
+    }
+    bar();
+    var name = "test";
+    function t() {
+        // 在函数 t() 内部，使用了 let 关键字声明了同名的变量 name，这个变量会形成块级作用域，只在当前块中有效。
+        // 在这个例子中，变量 name 的作用域是函数 t() 的内部，因此在函数内部先使用 console.log() 输出变量 name 的值时，会输出在函数内部声明的变量 name 的值，而不是全局变量 name 的值。
+      console.log(name); // 报错 Cannot access 'name' before initialization
+      let name = "test1"; 
+      console.log(name); // 
+    }
+    function t() {
+     console.log(name); // undefined，变量声明提升
+      var name = "test1"; 
+      console.log(name); // test1
+    }
+    t();
+    console.log(name); // test
+  </script>
+</html>

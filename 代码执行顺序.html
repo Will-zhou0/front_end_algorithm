@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // setTimeout(() => {
+    //   console.log(1);
+    // }, 0);
+
+    // console.log(2);
+    // new Promise((a, b) => {
+    //   console.log(3);
+    //   a();
+    // })
+    //   .then(() => {
+    //     console.log(4);
+    //   })
+    //   .catch(() => {
+    //     console.log(444);
+    //   });
+
+    // console.log(5);
+
+    var name = "123";
+    var obj = {
+      name: "456",
+      getName: function () {
+        function printName() {
+          console.log(this.name);
+        }
+        printName(); // 不是使用 对象.方法 的形式调用的，因此this指向window
+        console.log(this.name); // 456
+        // printName.call(this); // 456
+        // printName.bind(this)(); // 456
+      },
+    };
+    obj.getName(); // 123
+
+    var obj = {
+      say: function () {
+        var f1 = () => {
+          console.log("1111", this);
+        };
+        f1();
+      },
+      pro: {
+        getPro: () => {
+          console.log(this);
+        },
+      },
+    };
+    var o = obj.say; // 这里并没有调用say
+    // 相当于直接赋值了 say
+    o(); // 执行o中的f1，f1函数不是对象中的方法，因此this指向全局window
+    obj.say(); // say是obj对象中的方法，this指向obj
+    obj.pro.getPro(); // getPro是箭头函数,
+
+    function Foo() {
+      this.a = 1;
+      //   使用 return 语句返回了一个新的对象，
+      return {
+        a: 2,
+        b: 3,
+      };
+    }
+    Foo.prototype.a = 6;
+    Foo.prototype.b = 7;
+    Foo.prototype.c = 8;
+    // 当使用 new 运算符调用 Foo 构造函数时，返回的是这个新的对象，而不是构造函数中定义的 this 对象
+    var o = new Foo(); // 返回一个对象 foo()在对象中查找属性值
+    console.log(o.a);
+    console.log(o.b);
+    console.log(o.c);
+
+    Promise.resolve(console.log(0))
+      .then(() => {
+        console.log(1);
+        Promise.resolve(console.log(5))
+          .then(() => console.log(3))
+          .then(() => console.log(4))
+          .then(() => console.log(6));
+      })
+      .then(() => console.log(2))
+      .then(() => console.log(7));
+
+    console.log("in");
+    Promise.resolve()
+      .then(() => {
+        console.log("promise out1");
+        setTimeout(() => {
+          console.log("settimeout in");
+        });
+        Promise.resolve()
+          .then(() => {
+            console.log("promise in1");
+          })
+          .then(() => {
+            console.log("promise in2");
+          });
+      })
+      .then(() => {
+        console.log("promise out2");
+      });
+    setTimeout(() => {
+      console.log("settimeout out");
+    });
+    console.log("out");
+  </script>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+  let str = 'asfasf 萨达 qwe 21 短文数据的 qweqwe Qwe Paragraph 1qweqwe qweqwe';
+//   const regx = /Paragraph 2:|要求:|标题:|Paragraph 1:/g;
+//   const regex = /(?<=\w)(?=[A-Z])/g;
+//   const arr = str.split(regex)
+//   console.log(arr);
+let temp = str.split('Paragraph 2');
+console.log(temp);
+let paragraph2 = paragraph1 = essay = requirement = '' 
+if(temp.length > 1){
+    paragraph2 = temp[1]
+}
+temp = temp[0].split('Paragraph 1');
+if(temp.length > 1){
+    paragraph1 = temp[1]
+}
+temp = temp[0].split('短文');
+if(temp.length > 1){
+    essay = temp[1]
+}
+temp = temp[0].split('要求');
+if(temp.length > 1){
+    requirement = temp[1]
+}
+console.log('paragraph2',paragraph2);
+console.log('paragraph1',paragraph1);
+console.log('essay',essay);
+console.log('requirement',requirement);
+
+// console.log(str.indexOf('标题'));
+// var requirementMatch = str.match(/(标题|Paragraph 1|Paragraph 2)/);
+// var essayMatch = str.matchAll(/(要求|Paragraph 1|Paragraph 2)/g);
+// // var requirementMatch = str.match(/(标题|Paragraph 1|Paragraph 2)/);
+// var index =  requirementMatch ? requirementMatch.index : undefined;
+// var essayIndex =  requirementMatch ? requirementMatch.index : undefined;
+// for(item of essayMatch){
+//     console.log(item);
+// }
+// console.log([...essayMatch]);
+// const require = str.slice(str.indexOf('要求')+2, index).trim();
+// const essay = str.slice(str.indexOf('标题')+2, essayIndex).trim();
+// console.log(require);
+// console.log(essay);
+
+</script>
+</html>

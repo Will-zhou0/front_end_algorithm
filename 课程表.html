@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var canFinish = function (numCourses, prerequisites) {
+      // 存放所有课程的入度
+      const inDegree = new Array(numCourses).fill(0);
+      // 存放 某个课程 及 依赖这门课的后续课（数组）
+      const map = new Map();
+      // 初始化 入度表及 课程依赖哈希表
+      for (let i = 0; i < prerequisites.length; i++) {
+        inDegree[prerequisites[i][0]]++;
+        map.set(
+          prerequisites[i][1],
+          (map.get(prerequisites[i][1]) || []).push(prerequisites[i][0])
+        );
+        console.log(inDegree,map)
+      }
+      const queue = [];
+      for (let i = 0; i < inDegree.length; i++) {
+        if (inDegree[i] == 0) queue.push(i);
+      }
+      let count = 0;
+      while (queue.length) {
+        // 出队
+        const i = queue.shift();
+        count++;
+        if (map.has(i) && map.get(i).length) {
+          for (const course of map.get(i)) {
+            inDegree[course]--;
+            if (inDegree[course] == 0) {
+              queue.push(course);
+            }
+          }
+        }
+      }
+      return count == numCourses;
+    };
+    console.log(canFinish(2, [[0, 1]]));
+  </script>
+</html>

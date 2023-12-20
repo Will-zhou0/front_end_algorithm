@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var partition = function (s) {
+      const dp = new Array(s.length)
+        .fill()
+        .map(() => new Array(s.length).fill(false));
+      for (let j = 0; j < s.length; j++) {
+        for (let i = j; i >= 0; i--) {
+          // base case
+          if (i == j) dp[i][j] = true;
+          else if (j - i == 1 && s[i] == s[j]) dp[i][j] = true;
+          else if (j - i > 1 && s[i] == s[j] && dp[i + 1][dp[j - 1]])
+            dp[i][j] = true;
+        }
+      }
+      console.log(dp);
+      const res = [];
+      const temp = [];
+      function dfs(start) {
+        if (start == s.length) {
+          res.push(temp.slice());
+          return;
+        }
+
+        for (let i = start; i < s.length; i++) {
+          if (dp[start][i]) {
+            temp.push(s.substring(start, i + 1));
+            dfs(i + 1);
+            temp.pop();
+          }
+        }
+      }
+      dfs(0);
+      return res;
+    };
+    console.log(partition("aba"));
+  </script>
+</html>

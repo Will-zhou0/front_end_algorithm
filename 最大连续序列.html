@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var longestConsecutive = function (nums) {
+      let maxArr = [];
+      let arr = [...new Set(nums)];
+      arr.sort((a,b)=>a-b);
+      console.log(arr);
+      const n = arr.length;
+      let max = 1;
+      for (let i = 1; i < n; i++) {
+        if (arr[i] == arr[i - 1] + 1) {
+          max++;
+        } else {
+          maxArr.push(max);
+          max = 1;
+          continue;
+        }
+        maxArr.push(max);
+      }
+      console.log(maxArr);
+      return Math.max(...maxArr);
+    };
+    console.log(longestConsecutive([0,3,7,2,5,8,4,6,0,1])); // 4
+  </script>
+</html>

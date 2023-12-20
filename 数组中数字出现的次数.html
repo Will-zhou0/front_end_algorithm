@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var singleNumbers = function (nums) {
+      const sum = nums.reduce((a, cur) => a ^ cur, 0);
+    // 对于任意一个整数 x，它的补码是 ~x + 1。
+    // 也就是说，如果我们对一个整数 x 取反并加 1，得到的结果就是它的补码。
+    // 一个整数 x 和它的补码的按位与运算结果就是 x 的二进制表示中最低位的 1
+      const lower = sum & -sum;
+      let num1 = 0;
+      let num2 = 0;
+      for (const num of nums) {
+        if (lower & num) num1 ^= num;
+        else num2 ^= num;
+      }
+      return [num1, num2];
+    };
+  </script>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    /**
+     * url转化成object拼接样式
+     * @param url 需要转化的参数
+     */
+    const urlToObj = (url) => {
+      let string = url.split("&");
+      let res = {};
+      for (let i = 0; i < string.length; i++) {
+        let str = string[i].split("=");
+        if (str[0] != "") {
+          res[str[0]] = str[1];
+        }
+      }
+      return res;
+    };
+    //调用
+    console.log(urlToObj("a=1&b=2"));
+    // {"a": "1","b": "2"}
+
+    // {name: '山月', a: [3, 4]}
+    // 'https://shanyue.tech?name=%E5%B1%B1%E6%9C%88&a=3&a=4#hash'
+    function parse(url) {
+      // 一、夹杂在 ? 与 # 之前的字符就是 qs，使用 /\?([^/?#:]+)#?/ 正则来抽取
+      // 使用正则从 URL 中解析出 querystring
+      // 二、通过 Optional Chain 来避免空值错误
+      const queryString = url.match(/\?([^/?#:]+)#?/)?.[1];
+      console.log(url.match(/\?([^/?#:]+)#?/));
+      console.log(url.match(/([^?&]*)=([^&]*)/g));
+
+      if (!queryString) {
+        return {};
+      }
+
+      queryObj = queryString.split("&").reduce((params, block) => {
+        // 三、如果未赋值，则默认为空字符串
+        const [_k, _v = ""] = block.split("=");
+        // 四、通过 decodeURIComponent 来转义字符，
+        // 切记不可出现在最开头，以防 ?tag=test&title=1%2B1%3D2 出错 1+1=2 如果先解码再split拆分 拆分时多了=
+        const k = decodeURIComponent(_k);
+        const v = decodeURIComponent(_v);
+
+        if (params[k] !== undefined) {
+          // 处理 key 出现多次的情况，设置为数组
+          params[k] = [].concat(params[k], v);
+        } else {
+          params[k] = v;
+        }
+        return params;
+      }, {});
+      return queryObj;
+    }
+    console.log(parse("https://shanyue.tech?name=%E5%B1%B1%E6%9C%88&a=3&a=4#"));
+
+    // Pass in a string literal
+    var url = new URL("https://example.com?foo=1&bar=2");
+    // Retrieve from window.location
+    var url2 = new URL(window.location);
+
+    // Retrieve params via url.search, passed into ctor
+    // var params = new URLSearchParams(url.search);
+    var params = new URLSearchParams("foo=1&bar=2");
+    var params2 = new URLSearchParams(url2.search);
+
+    // Pass in a sequence
+    var params3 = new URLSearchParams([
+      ["foo", 1],
+      ["bar", 2],
+    ]);
+
+    // Pass in a record
+    var params4 = new URLSearchParams({ foo: 1, bar: 2 });
+    for (const [k, v] of params.entries()) {
+      console.log(k, v);
+    }
+    // 使用urlSearchParams来实现一个url 转 对象的函数
+    function parse2(url) {
+      const res = {};
+      const urlObj = new URL(url);
+      // const params = new URLSearchParams(urlObj.search);
+      const params = urlObj.searchParams;
+      for (const [k, v] of params.entries()) {
+        if (res[k] !== undefined) {
+          res[k] = [].concat(res[k], v);
+        } else {
+          res[k] = v;
+        }
+      }
+      return res;
+    }
+    console.log(
+      parse2("https://shanyue.tech?name=%E5%B1%B1%E6%9C%88&a=322&a=433#")
+    );
+
+    /**
+     * 对象转url字符串
+     * @param obj 需要转化的对象
+     */
+    const objToUrl = (obj) => {
+      let arr = [];
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          let value = obj[key];
+          if (value !== null && value !== undefined) {
+            if (Array.isArray(value)) {
+              value.forEach((item) => {
+                arr.push(`${key}=${encodeURIComponent(item)}`);
+              });
+            } else if (typeof value === "object") {
+              // 递归
+              arr.push(`${key}.${objToUrl(value)}`);
+            } else {
+              arr.push(`${key}=${encodeURIComponent(value)}`);
+            }
+          } else {
+            arr.push(`${key}=`);
+          }
+        }
+      }
+      return arr.join("&");
+    };
+    console.log(
+      objToUrl({
+        name: "hehe*^",
+        age: null,
+        children: [1, 2],
+        job: { one: { name: "111", age: "222" } },
+      })
+    );
+
+    
+  </script>
+</html>

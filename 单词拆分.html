@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var wordBreak = function (s, wordDict) {
+      // 数组去重
+      let wordSet = new Set(wordDict);
+      // 备忘录
+      let memo = new Map();
+      return dp(0);
+      // dp 函数返回 s.substring(i) 是否能够被拼出
+      function dp(i) {
+        const res = [];
+        // base case s.substring(s.length)为空
+        if (i == s.length) {
+          res.push("");
+          return res;
+        }
+        // 防止冗余计算
+        if (memo.has(i)) {
+          return memo.get(i);
+        }
+        // 子问题
+        for (const word of wordSet) {
+          const len = word.length;
+          if (s.substring(i, i + len) === word) {
+            const suffixList = dp(i + len);
+            suffixList.forEach((suffix) => {
+              const space = suffix === "" ? "" : " ";
+              res.push(word + space + suffix);
+            });
+          }
+        }
+        memo.set(i, res);
+        return res;
+      }
+    };
+  </script>
+</html>

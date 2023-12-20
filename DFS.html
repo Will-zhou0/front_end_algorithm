@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+        const tree = {
+          name: "root",
+          children: [
+            {
+              name: "c1",
+              children: [
+                {
+                  name: "c11",
+                  children: [],
+                },
+                {
+                  name: "c12",
+                  children: [],
+                },
+              ],
+            },
+            {
+              name: "c2",
+              children: [
+                {
+                  name: "c21",
+                  children: [],
+                },
+                {
+                  name: "c22",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        };
+
+        // 深度优先的方式遍历 打印 name
+        // ['root', 'c1','c11', 'c12', 'c2', 'c21', 'c22']
+        function solveDFS(root) {
+          let stack = [],
+            result = [];
+          if (!root) return [];
+          stack.push(root);
+          while (stack.length) {
+            let node = stack.pop();
+            if (node == null) continue;
+            result.push(node.name);
+            for (let i = node.children.length - 1; i >= 0; i--) {
+              stack.push(node.children[i]);
+            }
+          }
+          return result; // ['root', 'c1','c11', 'c12', 'c2', 'c21', 'c22']
+        }
+        function solveBFS(root) {
+          let stack = [],
+            result = [];
+          if (!root) return [];
+          stack.push(root);
+          while (stack.length) {
+            let node = stack.shift();
+            if (node == null) continue;
+            result.push(node.name);
+            for (let i=0;i<node.children.length; i++) {
+              stack.push(node.children[i]);
+            }
+          }
+          return result; // ["root","c1","c2","c11","c12","c21","c22"]
+        }
+        console.log(solveDFS(tree));
+        console.log(solveBFS(tree));
+  </script>
+</html>

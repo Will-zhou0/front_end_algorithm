@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    class EventEmitter {
+      constructor() {
+        //缓存事件列表
+        this.list = {};
+      }
+      //on订阅：把callback函数注册到缓存列表中
+      on(eventName, callback) {
+        if (!this.list[eventName]) {
+          //当还没有这个事件时，为这个事件添加一个缓存列表
+          this.list[eventName] = [callback];
+        } else {
+          //当已经存在这个事件的缓存列表之后，直接添加
+          this.list[eventName].push(callback);
+        }
+      }
+      //emit发布：根据event去执行对应缓存列表里面的函数
+      emit(eventName, ...args) {
+        if (!this.list[eventName]) return;
+        this.list[eventName].forEach((event) =>
+          // event.apply(this, args)
+          event(...args)
+        );
+      }
+      //remove：取消订阅
+      remove(eventName, callback) {
+        if (!this.list[eventName]) return;
+        this.list[eventName] = this.list[eventName].filter(
+          (fn) => fn != callback
+        );
+      }
+      //once：只监听一次
+      once(eventName, callback) {
+        const fn = (...args) => {
+          callback(...args);
+          this.remove(eventName, fn);
+        };
+        this.on(eventName, fn);
+      }
+    }
+    const e = new EventEmitter();
+
+    const callback = (x) => {
+      console.log("Click", x.id);
+    };
+    e.on("click", callback);
+    e.remove("click", callback);
+    e.on("click", callback);
+
+    // 只打印一次
+    const onceCallback = (x) => console.log("Once Click", x.id);
+    e.once("click", onceCallback);
+    e.once("click", onceCallback);
+
+    //=> 3
+    e.emit("click", { id: 3 });
+
+    //=> 4
+    e.emit("click", { id: 4 });
+  </script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var removeElement = function (nums, val) {
+      while (nums.indexOf(val) != -1) {
+        nums.splice(nums.indexOf(val), 1);
+      }
+      return nums;
+    };
+    var arr = [0, 1, 2, 2, 3, 0, 4, 2];
+    console.log(removeElement(arr, 2));
+    // leedcode 567 字符串排列
+    // 滑动窗口
+    var checkInclusion = function (s1, s2) {
+      const s1Len = s1.length;
+      let left = 0,
+        right = s1.length;
+      let need = new Map();
+      for (const c of s1) {
+        need.set(c, (need.get(c) || 0) + 1);
+      }
+      while (right <= s2.length) {
+        let valid = 0;
+        let window = new Map();
+        for (const c of s2.substring(left, right)) {
+          
+          if (!need.has(c)) {
+            break;
+          }
+          window.set(c, (window.get(c) || 0) + 1);
+          if (need.get(c) == window.get(c)) valid++; 
+        }
+        if (valid == need.size) return true;
+        left++;
+        right++;
+      }
+      return false;
+    };
+    console.log(checkInclusion("abc", "bcba" ) );
+  </script>
+</html>

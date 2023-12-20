@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html{
+            font-size: 16px;
+            height: 200%;
+        }
+    </style>
+</head>
+<body>
+    <button id="btn">按钮</button>
+</body>
+<script>
+    // 防抖：让函数在特定的时间内至多执行一次
+function debounce(fn, delay) {
+    let timer = null // 使用闭包 缓存变量
+    return function () {
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.call(this)
+        }, delay)
+    }
+}
+document.getElementById('btn').onclick = debounce(function () { console.log('按钮被点击了'); }, 500)
+
+
+// 节流：让函数在特定的时间内只执行一次
+function throttle(fn, delay) {
+    let timer = Date.now()
+    return function () {
+        let newTimer = Date.now()
+        if(newTimer - timer > delay) {
+            fn.call(this)
+            timer = newTimer
+        }
+    }
+}
+document.onscroll = throttle(function () { console.log(1111); }, 200)
+</script>
+</html>

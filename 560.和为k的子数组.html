@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // 寻找数组的中心下标
+    var pivotIndex = function (nums) {
+      const n = nums.length;
+      const prefixSum = new Array(n).fill(0);
+      // prefixSum[0] = nums[0]
+      for (let i = 1; i <= n; i++) {
+        prefixSum[i] = prefixSum[i - 1] + nums[i - 1];
+      }
+      console.log(prefixSum);
+      for (let i = 0; i <= n; i++) {
+        // console.log(prefixSum[i]);
+        if (prefixSum[i] == prefixSum[n] - prefixSum[i + 1]) return i;
+      }
+      return -1;
+    };
+    console.log(pivotIndex([1, 2, 3, 4, 5, 6, 7, 8]));
+
+    // 和为k的子数组
+    function subarraySum(nums, k) {
+      const map = new Map();
+      map.set(0, 1);
+      let sum = 0,
+        count = 0;
+      for (let i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        if (map.has(sum - k)) {
+          count += map.get(sum - k);
+        }
+        map.set(sum, (map.get(sum) || 0) + 1);
+      }
+      return count;
+    }
+
+    // 
+    var checkSubarraySum = function (nums, k) {
+      const n = nums.length;
+      const preSum = new Array(n + 1).fill(0);
+      for (let i = 0; i < n; i++) {
+        preSum[i + 1] = preSum[i] + nums[i];
+      }
+      console.log(preSum);
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = i + 2; j <= n; j++) {
+          if ((preSum[j] - preSum[i]) % k == 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    console.log(checkSubarraySum([23, 2, 4,  6, 7], 6));
+  </script>
+</html>

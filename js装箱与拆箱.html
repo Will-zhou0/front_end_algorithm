@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var objNum = new Number(64);
+    var objStr = new String("64");
+    console.log(typeof objNum); // object
+    console.log(typeof objStr); // object
+    console.log(typeof objNum.valueOf()); // number 基本的数字类型，想要的
+    console.log(typeof objNum.toString()); // string 基本的字符类型，不想要的
+    console.log(typeof objStr.valueOf()); // string 基本的数据类型，不想要的
+    console.log(typeof objStr.toString()); // string 基本的数据类型，想要的
+
+    var obj = {
+      say: function () {
+        var f1 = () => {
+          console.log("1111", this);
+        };
+        f1();
+      },
+      pro: {
+        getPro: () => {
+          console.log(this);
+        },
+      },
+    };
+    var o = obj.say; // 这里并没有调用say
+    // 相当于直接赋值了 say
+    o(); // 执行o中的f1，f1函数不是对象中的方法，因此this指向全局window
+    obj.say(); // say是obj对象中的方法，this指向obj
+    obj.pro.getPro(); // getPro是箭头函数,箭头函数的外层无函数,因此this指向window
+  </script>
+</html>
